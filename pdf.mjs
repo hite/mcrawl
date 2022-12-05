@@ -5,6 +5,12 @@ function imagesHaveLoaded() {
   return Array.from(document.images).every((i) => i.complete)
 }
 
+let actionConfs = 'preactions.json';
+let actions = {}; 
+if (fs.existsSync(actionConfs)) {
+  actions = JSON.parse(fs.readFileSync(actionConfs, 'utf8'));
+}
+
 export default async function capture(url, output){
   const browser = await puppeteer.launch({
     headless: 'chrome',
@@ -17,10 +23,7 @@ export default async function capture(url, output){
   const page = await browser.newPage();
 
   await page.goto(url, {waitUntil: 'networkidle0'});
-  let actionConfs = 'preactions.json';
-  
-  if (fs.existsSync(actionConfs)) {
-    let actions = JSON.parse(fs.readFileSync(actionConfs, 'utf8'));
+  console.log('apply actions')
   // apply pre-actions
     for (const rule in actions) {
       if (url.indexOf(rule) > -1) {
@@ -32,10 +35,11 @@ export default async function capture(url, output){
         }
       }
     }
-  }
 
   // await page.waitForFunction(imagesHaveLoaded);
+  console.log('waiting for network idle')
   await page.waitForNetworkIdle('networkidle0')
+  console.log('starting pdf')
   await page.pdf({path: output, format:'A4'});
 
   await browser.close();
