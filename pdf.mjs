@@ -5,7 +5,7 @@ function imagesHaveLoaded() {
   return Array.from(document.images).every((i) => i.complete)
 }
 
-(async () => {
+export default async function capture(url, output){
   const browser = await puppeteer.launch({
     headless: 'chrome',
     args: [
@@ -16,12 +16,6 @@ function imagesHaveLoaded() {
   });
   const page = await browser.newPage();
 
-  const args = process.argv;
-  const url = args[2]
-  if(!url) {
-    console.error('URL doesn`t exsit');
-    return
-  }
   await page.goto(url, {waitUntil: 'networkidle0'});
   let actionConfs = 'preactions.json';
   
@@ -42,8 +36,8 @@ function imagesHaveLoaded() {
 
   // await page.waitForFunction(imagesHaveLoaded);
   await page.waitForNetworkIdle('networkidle0')
-  await page.pdf({path: `page.pdf`, format:'A4'});
+  await page.pdf({path: output, format:'A4'});
 
   await browser.close();
   
-})();
+};

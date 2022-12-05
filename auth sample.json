@@ -1,0 +1,7 @@
+{
+  "host": "smtp.mail.com",
+  "port": 465,
+  "secure": true,
+  "user": "user",
+  "pass": "pwd"
+}
