@@ -1,0 +1,8 @@
+{
+    "a.b.com/":[
+        {
+            "selector": "#didomi-notice-agree-button",
+            "action": "click"
+        }
+    ]
+}
