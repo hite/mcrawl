@@ -15,7 +15,6 @@ function imagesHaveLoaded() {
     ]
   });
   const page = await browser.newPage();
-  await page.setViewport({ width: 390, height: 844 })
 
   const args = process.argv;
   const url = args[2]
