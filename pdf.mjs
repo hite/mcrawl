@@ -1,4 +1,9 @@
 import puppeteer from 'puppeteer';
+import fs from 'fs';
+
+function imagesHaveLoaded() {
+  return Array.from(document.images).every((i) => i.complete)
+}
 
 (async () => {
   const browser = await puppeteer.launch({
@@ -10,6 +15,7 @@ import puppeteer from 'puppeteer';
     ]
   });
   const page = await browser.newPage();
+  await page.setViewport({ width: 390, height: 844 })
 
   const args = process.argv;
   const url = args[2]
@@ -18,11 +24,26 @@ import puppeteer from 'puppeteer';
     return
   }
   await page.goto(url, {waitUntil: 'networkidle0'});
-  if (url.indexOf('rfi.fr') > -1) {
-      await page.click('#didomi-notice-agree-button');
+  let actionConfs = 'preactions.json';
+  
+  if (fs.existsSync(actionConfs)) {
+    let actions = JSON.parse(fs.readFileSync(actionConfs, 'utf8'));
+  // apply pre-actions
+    for (const rule in actions) {
+      if (url.indexOf(rule) > -1) {
+        const configs = actions[rule];
+        console.log(configs);
+        for (let i = 0; i < configs.length; i++) {
+          const conf = configs[i];
+          await page[conf.action](conf.selector);
+        }
+      }
+    }
   }
 
-  await page.pdf({path: `${url}.pdf`, format:'A4'});
+  // await page.waitForFunction(imagesHaveLoaded);
+  await page.waitForNetworkIdle('networkidle0')
+  await page.pdf({path: `page.pdf`, format:'A4'});
 
   await browser.close();
   
