@@ -31,7 +31,10 @@ export default async function capture(url, output){
         console.log(configs);
         for (let i = 0; i < configs.length; i++) {
           const conf = configs[i];
-          await page[conf.action](conf.selector);
+          let element = document.querySelector(conf.selector);
+          if (element) {
+            await page[conf.action](conf.selector);
+          }
         }
       }
     }
