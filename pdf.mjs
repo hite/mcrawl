@@ -13,7 +13,7 @@ if (fs.existsSync(actionConfs)) {
 
 export default async function capture(url, output){
   const browser = await puppeteer.launch({
-    headless: 'chrome',
+    // headless: 'chrome',
     args: [
         '--headless=false',
         // '--disable-gpu',
@@ -22,7 +22,7 @@ export default async function capture(url, output){
   });
   const page = await browser.newPage();
 
-  await page.goto(url, {waitUntil: 'domcontentloaded'});
+  await page.goto(url, {waitUntil: 'networkidle0'});
   console.log('apply actions')
   // apply pre-actions
     for (const rule in actions) {
@@ -43,7 +43,7 @@ export default async function capture(url, output){
   console.log('waiting for network idle')
   await page.waitForNetworkIdle('networkidle0')
   console.log('starting pdf')
-  await page.pdf({path: output, format:'A4'});
+  await page.pdf({path: output, format:'A4', fullPage: true});
 
   await browser.close();
   
