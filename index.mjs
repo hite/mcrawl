@@ -16,5 +16,5 @@ import caputre from './pdf.mjs';
 
     let fileName =  url.replace('.','-').replace(/\//g,'').replace(':','') + '.pdf';
     await caputre(url, fileName);
-    mail(url, receiver, fileName);
+    // mail(url, receiver, fileName);
 })();
