@@ -22,7 +22,7 @@ export default async function capture(url, output){
   });
   const page = await browser.newPage();
 
-  await page.goto(url, {waitUntil: 'networkidle0'});
+  await page.goto(url, {waitUntil: 'domcontentloaded'});
   console.log('apply actions')
   // apply pre-actions
     for (const rule in actions) {
@@ -31,7 +31,7 @@ export default async function capture(url, output){
         console.log(configs);
         for (let i = 0; i < configs.length; i++) {
           const conf = configs[i];
-          let element = document.querySelector(conf.selector);
+          let element = await document.querySelector(conf.selector);
           if (element) {
             await page[conf.action](conf.selector);
           }
