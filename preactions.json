@@ -1,0 +1,14 @@
+{
+    "rfi.fr/":[
+        {
+            "selector": "#didomi-notice-agree-button",
+            "action": "click"
+        }
+    ],
+    "stackoverflow.com/":[
+        {
+            "selector": ".js-accept-cookies",
+            "action": "click"
+        }
+    ]
+}

@@ -2,3 +2,5 @@ node_modules/
 *.pdf
 package-lock.json
 .DS_Store
+test.mjs
+*.bak

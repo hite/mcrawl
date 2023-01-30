@@ -1,9 +1,7 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-extra';
+import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import fs from 'fs';
-
-function imagesHaveLoaded() {
-  return Array.from(document.images).every((i) => i.complete)
-}
+import { executablePath } from 'puppeteer';
 
 let actionConfs = 'preactions.json';
 let actions = {}; 
@@ -11,18 +9,24 @@ if (fs.existsSync(actionConfs)) {
   actions = JSON.parse(fs.readFileSync(actionConfs, 'utf8'));
 }
 
+puppeteer.use(StealthPlugin());
+
 export default async function capture(url, output){
   const browser = await puppeteer.launch({
-    // headless: 'chrome',
+    headless: 'chrome',
+    executablePath: executablePath(),
     args: [
-        '--headless=false',
-        // '--disable-gpu',
+        // '--no-sandbox',
         '--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36'
     ]
   });
   const page = await browser.newPage();
-
-  await page.goto(url, {waitUntil: 'networkidle0'});
+  await page.setViewport({
+    width: 1920,
+    height: 1280,
+    deviceScaleFactor: 1,
+  });
+  await page.goto(url, {waitUntil: 'domcontentloaded'});
   console.log('apply actions')
   // apply pre-actions
     for (const rule in actions) {
@@ -43,7 +47,7 @@ export default async function capture(url, output){
   console.log('waiting for network idle')
   await page.waitForNetworkIdle('networkidle0')
   console.log('starting pdf')
-  await page.pdf({path: output, format:'A4', fullPage: true});
+  await page.pdf({path: output});
 
   await browser.close();
   
