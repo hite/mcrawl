@@ -27,7 +27,7 @@ export default async function capture(url, output){
     deviceScaleFactor: 1,
   });
   await page.goto(url, {waitUntil: 'domcontentloaded'});
-  console.log('apply actions')
+  console.log('apply actions');
   // apply pre-actions
     for (const rule in actions) {
       if (url.indexOf(rule) > -1) {
@@ -44,9 +44,9 @@ export default async function capture(url, output){
     }
 
   // await page.waitForFunction(imagesHaveLoaded);
-  console.log('waiting for network idle')
+  console.log('> waiting for network idle')
   await page.waitForNetworkIdle('networkidle0')
-  console.log('starting pdf')
+  console.log('> starting pdf')
   await page.pdf({path: output});
 
   await browser.close();
