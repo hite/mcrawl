@@ -3,6 +3,8 @@ Why do I create this crawler?
 
 A: To test how the webpages behave in different regions simultaneously.
 
+So deploy this service on many sites located in muitple regions.
+
 ## How to
 
 1. Deploy this repo on any servers you own.
