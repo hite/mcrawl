@@ -22,6 +22,7 @@ app.get("/crawl", (req, res) => {
     res.send("> URL doesn`t exsit");
     return;
   }
+  url = decodeURIComponent(url);
   console.log(`> Fetch '${url}'`)
   let fileName =
     url.replace(".", "-").replace(/\//g, "").replace(":", "") + ".pdf";
