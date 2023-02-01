@@ -58,7 +58,7 @@ function cryptURL(str){
     let newURLs = [];
     for (let index = 0; index < str.length; index++) {
         let code = str[index].charCodeAt(0); 
-        newCode = code + 10; 
+        let newCode = code + 10; 
         newURLs.push(String.fromCharCode(newCode))
     }
     return newURLs.join('');
@@ -68,7 +68,7 @@ function decruyptURL(str){
     let origURL = [];
     for (let index = 0; index < str.length; index++) {
         let code = str[index].charCodeAt(0); 
-        newCode = code - 10; 
+        let newCode = code - 10; 
         origURL.push(String.fromCharCode(newCode))
     }
     return origURL.join('');
