@@ -22,7 +22,7 @@ app.get("/crawl", (req, res) => {
     res.send("> URL doesn`t exsit");
     return;
   }
-  url = decodeURIComponent(url);
+  url = decruyptURL(url);
   console.log(`> Fetch '${url}'`)
   let fileName =
     url.replace(".", "-").replace(/\//g, "").replace(":", "") + ".pdf";
@@ -53,3 +53,23 @@ app.get("/crawl", (req, res) => {
 app.listen(port, () =>
   console.log(`> Crawl service is listening on port ${port}.`)
 );
+
+function cryptURL(str){
+    let newURLs = [];
+    for (let index = 0; index < str.length; index++) {
+        let code = str[index].charCodeAt(0); 
+        newCode = code + 10; 
+        newURLs.push(String.fromCharCode(newCode))
+    }
+    return newURLs.join('');
+}
+
+function decruyptURL(str){
+    let origURL = [];
+    for (let index = 0; index < str.length; index++) {
+        let code = str[index].charCodeAt(0); 
+        newCode = code - 10; 
+        origURL.push(String.fromCharCode(newCode))
+    }
+    return origURL.join('');
+}
