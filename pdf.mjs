@@ -44,6 +44,8 @@ export default async function capture(url, output){
   console.log('> waiting for network idle')
   await page.waitForNetworkIdle('networkidle0')
   console.log('> starting pdf')
+  page.emulateMediaType('screen');
+  await new Promise(r => setTimeout(r, 3000));
   await page.pdf({path: output});
 
   await browser.close();
