@@ -22,7 +22,9 @@ app.get("/crawl", (req, res) => {
     res.send("> URL doesn`t exsit");
     return;
   }
-  url = cryptURL(url);
+  if (!url.startsWith('http')) {
+      url = cryptURL(url);
+  }
   console.log(`> Fetch '${url}'`)
   let fileName =
     url.replace(".", "-").replace(/\//g, "").replace(":", "") + ".pdf";

@@ -1,5 +1,4 @@
-import puppeteer from 'puppeteer-extra';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+import puppeteer from 'puppeteer';
 import fs from 'fs';
 import { executablePath } from 'puppeteer';
 
@@ -8,8 +7,6 @@ let actions = {};
 if (fs.existsSync(actionConfs)) {
   actions = JSON.parse(fs.readFileSync(actionConfs, 'utf8'));
 }
-
-puppeteer.use(StealthPlugin());
 
 export default async function capture(url, output){
   const browser = await puppeteer.launch({

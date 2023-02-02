@@ -12,7 +12,7 @@ So deploy this service on many sites located in muitple regions.
 2. Run `node index.mjs`
 
 ### Currently via URL
-Type link like,
+Type link on the address bar, like
 http://127.0.0.1:5789/crawl?url=https://news.163.com
 
 Replace the value of url with the link you want to crawl && 
