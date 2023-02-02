@@ -54,22 +54,20 @@ app.listen(port, () =>
   console.log(`> Crawl service is listening on port ${port}.`)
 );
 
+var asciiLetters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+var asciiLength = asciiLetters.length;
+
 function cryptURL(str){
     let newURLs = [];
     for (let index = 0; index < str.length; index++) {
-        let code = str[index].charCodeAt(0); 
-        let newCode = code + 10; 
-        newURLs.push(String.fromCharCode(newCode))
+        let char = str[index];
+        let loc = asciiLetters.indexOf(char);
+        if (loc > -1) {
+            let newChar = asciiLetters[asciiLength - 1 - loc]; 
+            newURLs.push(newChar)
+        } else {
+            newURLs.push(char)
+        }
     }
     return newURLs.join('');
-}
-
-function decruyptURL(str){
-    let origURL = [];
-    for (let index = 0; index < str.length; index++) {
-        let code = str[index].charCodeAt(0); 
-        let newCode = code - 10; 
-        origURL.push(String.fromCharCode(newCode))
-    }
-    return origURL.join('');
 }
