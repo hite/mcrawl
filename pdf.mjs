@@ -23,6 +23,7 @@ export default async function capture(url, output){
     height: 1280,
     deviceScaleFactor: 1,
   });
+  page.emulateMediaType('screen');
   await page.goto(url, {waitUntil: 'domcontentloaded'});
   console.log('apply actions');
   // apply pre-actions
@@ -41,13 +42,8 @@ export default async function capture(url, output){
     }
 
   // await page.waitForFunction(imagesHaveLoaded);
-  console.log('> waiting for network idle')
-  await page.waitForNetworkIdle('networkidle0')
-  console.log('> starting pdf')
-  page.emulateMediaType('screen');
   await new Promise(r => setTimeout(r, 3000));
+  console.log('> starting pdf')
   await page.pdf({path: output});
-
   await browser.close();
-  
 };
